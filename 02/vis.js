@@ -23,31 +23,32 @@ const mouseOverFunction = function (d) {
 
   node
     .transition(500)
-      .style('opacity', o => isConnected(o, d) ? 1.0 : 0.2)
+      .style('opacity', o => (isConnected(o, d) ? 1.0 : 0.2))
       .style('fill', (o) => {
+        let fillColor;
         if (isConnectedAsTarget(o, d) && isConnectedAsSource(o, d)) {
-          fillcolor = 'green';
+          fillColor = 'green';
         } else if (isConnectedAsSource(o, d)) {
-          fillcolor = 'red';
+          fillColor = 'red';
         } else if (isConnectedAsTarget(o, d)) {
-          fillcolor = 'blue';
+          fillColor = 'blue';
         } else if (isEqual(o, d)) {
-          fillcolor = 'hotpink';
+          fillColor = 'hotpink';
         } else {
-          fillcolor = '#000';
+          fillColor = '#000';
         }
-        return fillcolor;
+        return fillColor;
       });
 
   link
     .transition(500)
-      .style('stroke-opacity', o => o.source === d || o.target === d ? 1 : 0.2)
+      .style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : 0.2))
       .transition(500)
-      .attr('marker-end', o => o.source === d || o.target === d ? 'url(#arrowhead)' : 'url()');
+      .attr('marker-end', o => (o.source === d || o.target === d ? 'url(#arrowhead)' : 'url()'));
 
   circle
     .transition(500)
-      .attr('r', () => 1.4 * node_radius(d));
+      .attr('r', () => 1.4 * nodeRadius(d));
 };
 
 const mouseOutFunction = function () {
@@ -61,11 +62,11 @@ const mouseOutFunction = function () {
 
   circle
     .transition(500)
-      .attr('r', node_radius);
+      .attr('r', nodeRadius);
 };
 
 function isConnected(a, b) {
-  return isConnectedAsTarget(a, b) || isConnectedAsSource(a, b) || a.index == b.index;
+  return isConnectedAsTarget(a, b) || isConnectedAsSource(a, b) || a.index === b.index;
 }
 
 function isConnectedAsSource(a, b) {
@@ -77,7 +78,7 @@ function isConnectedAsTarget(a, b) {
 }
 
 function isEqual(a, b) {
-  return a.index == b.index;
+  return a.index === b.index;
 }
 
 function tick() {
@@ -91,7 +92,7 @@ function tick() {
     .attr('transform', d => `translate(${d.x},${d.y})`);
 }
 
-function node_radius(d) { return Math.pow(40.0 * d.size, 1 / 3); }
+function nodeRadius(d) { return Math.pow(40.0 * d.size, 1 / 3); }
 
 const width = 1000;
 const height = 500;
@@ -129,7 +130,7 @@ let node = svg.selectAll('.node')
 
 node
   .append('circle')
-  .attr('r', node_radius)
+  .attr('r', nodeRadius)
   .on('mouseover', mouseOverFunction)
   .on('mouseout', mouseOutFunction);
 
