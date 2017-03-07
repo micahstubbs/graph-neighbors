@@ -17,8 +17,8 @@ data = {
                 ]
         }
 
-var mouseOverFunction = function(d) {
-  var circle = d3.select(this);
+const mouseOverFunction = function(d) {
+  const circle = d3.select(this);
 
   node
     .transition(500)
@@ -47,10 +47,10 @@ var mouseOverFunction = function(d) {
   circle
     .transition(500)
       .attr("r", () => 1.4 * node_radius(d));
-}
+};
 
-var mouseOutFunction = function() {
-  var circle = d3.select(this);
+const mouseOutFunction = function() {
+  const circle = d3.select(this);
 
   node
     .transition(500);
@@ -61,7 +61,7 @@ var mouseOutFunction = function() {
   circle
     .transition(500)
       .attr("r", node_radius);
-}
+};
 
 function isConnected(a, b) {
     return isConnectedAsTarget(a, b) || isConnectedAsSource(a, b) || a.index == b.index;
@@ -92,13 +92,13 @@ function tick() {
 
 function node_radius(d) { return Math.pow(40.0 * d.size, 1/3); }
 
-var width = 1000;
-var height = 500;
+const width = 1000;
+const height = 500;
 
-var nodes = data.nodes
-var links = data.links
+const nodes = data.nodes;
+const links = data.links;
 
-var force = d3.layout.force()
+const force = d3.layout.force()
               .nodes(nodes)
               .links(links)
               .charge(-3000)
@@ -112,7 +112,7 @@ links.forEach(d => {
   linkedByIndex[d.source.index + "," + d.target.index] = true;
 });
 
-var svg = d3.select("body").append("svg")
+const svg = d3.select("body").append("svg")
             .attr("width", width)
             .attr("height", height);
 
