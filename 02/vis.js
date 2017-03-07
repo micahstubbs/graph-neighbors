@@ -22,10 +22,8 @@ var mouseOverFunction = function(d) {
 
   node
     .transition(500)
-      .style("opacity", function(o) {
-        return isConnected(o, d) ? 1.0 : 0.2 ;
-      })
-      .style("fill", function(o) {
+      .style("opacity", o => isConnected(o, d) ? 1.0 : 0.2)
+      .style("fill", o => {
         if (isConnectedAsTarget(o, d) && isConnectedAsSource(o, d) ) {
           fillcolor = 'green';
         } else if (isConnectedAsSource(o, d)) {
@@ -42,17 +40,13 @@ var mouseOverFunction = function(d) {
 
   link
     .transition(500)
-      .style("stroke-opacity", function(o) {
-        return o.source === d || o.target === d ? 1 : 0.2;
-      })
+      .style("stroke-opacity", o => o.source === d || o.target === d ? 1 : 0.2)
       .transition(500)
-      .attr("marker-end", function(o) {
-        return o.source === d || o.target === d ? "url(#arrowhead)" : "url()";
-      });
+      .attr("marker-end", o => o.source === d || o.target === d ? "url(#arrowhead)" : "url()");
 
   circle
     .transition(500)
-      .attr("r", function(){ return 1.4 * node_radius(d)});
+      .attr("r", () => 1.4 * node_radius(d));
 }
 
 var mouseOutFunction = function() {
@@ -87,13 +81,13 @@ function isEqual(a, b) {
 
 function tick() {
   link
-    .attr("x1", function(d) { return d.source.x; })
-    .attr("y1", function(d) { return d.source.y; })
-    .attr("x2", function(d) { return d.target.x; })
-    .attr("y2", function(d) { return d.target.y; });
+    .attr("x1", d => d.source.x)
+    .attr("y1", d => d.source.y)
+    .attr("x2", d => d.target.x)
+    .attr("y2", d => d.target.y);
 
   node
-    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    .attr("transform", d => "translate(" + d.x + "," + d.y + ")");
 }
 
 function node_radius(d) { return Math.pow(40.0 * d.size, 1/3); }
@@ -114,7 +108,7 @@ var force = d3.layout.force()
               .start();
 
 var linkedByIndex = {};
-links.forEach(function(d) {
+links.forEach(d => {
   linkedByIndex[d.source.index + "," + d.target.index] = true;
 });
 
