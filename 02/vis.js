@@ -1,13 +1,13 @@
 /* global d3 */
 
-const data = {
+const graph = {
   nodes: [
-    { size: 10 },
-    { size: 5 },
-    { size: 2 },
-    { size: 3 },
-    { size: 30 },
-    { size: 40 },
+    { id: 0, size: 10 },
+    { id: 1, size: 5 },
+    { id: 2, size: 2 },
+    { id: 3, size: 3 },
+    { id: 4, size: 30 },
+    { id: 5, size: 40 },
   ],
   links: [
     { source: 0, target: 1 },
@@ -65,49 +65,25 @@ const mouseOutFunction = function () {
       .attr('r', nodeRadius);
 };
 
-function isConnected(a, b) {
-  return isConnectedAsTarget(a, b) || isConnectedAsSource(a, b) || a.index === b.index;
-}
-
-function isConnectedAsSource(a, b) {
-  return linkedByIndex[`${a.index},${b.index}`];
-}
-
-function isConnectedAsTarget(a, b) {
-  return linkedByIndex[`${b.index},${a.index}`];
-}
-
-function isEqual(a, b) {
-  return a.index === b.index;
-}
-
-function tick() {
-  link
-    .attr('x1', d => d.source.x)
-    .attr('y1', d => d.source.y)
-    .attr('x2', d => d.target.x)
-    .attr('y2', d => d.target.y);
-
-  node
-    .attr('transform', d => `translate(${d.x},${d.y})`);
-}
-
-function nodeRadius(d) { return Math.pow(40.0 * d.size, 1 / 3); }
-
 const width = 1000;
 const height = 500;
 
-const nodes = data.nodes;
-const links = data.links;
+const nodes = graph.nodes;
+const links = graph.links;
 
-const force = d3.layout.force()
-  .nodes(nodes)
-  .links(links)
-  .charge(-3000)
-  .friction(0.6)
-  .gravity(0.6)
-  .size([width, height])
-  .start();
+const simulation = d3.forceSimulation()
+  .force('link', d3.forceLink().id(d => d.id))
+  .force('charge', d3.forceManyBody())
+  .force('center', d3.forceCenter(width / 2, height / 2));
+
+  // const simulation = d3.forceSimulation()
+  //   .nodes(nodes)
+  // .links(links)
+  // .charge(-3000)
+  // .friction(0.6)
+  // .gravity(0.6)
+  // .size([width, height])
+  // .start();
 
 let linkedByIndex = {};
 links.forEach((d) => {
@@ -119,14 +95,17 @@ const svg = d3.select('body').append('svg')
   .attr('height', height);
 
 let link = svg.selectAll('line')
-  .data(links)
+  .data(graph.links)
   .enter().append('line');
 
 let node = svg.selectAll('.node')
   .data(nodes)
   .enter().append('g')
     .attr('class', 'node')
-    .call(force.drag);
+    .call(d3.drag()
+      .on('start', dragstarted)
+      .on('drag', dragged)
+      .on('end', dragended));
 
 node
   .append('circle')
@@ -148,5 +127,56 @@ svg
 link
   .attr('marker-end', 'url()');
 
-force
-  .on('tick', tick);
+simulation
+  .nodes(graph.nodes)
+  .on('tick', ticked);
+
+simulation.force('link')
+  .links(graph.links);
+
+function isConnected(a, b) {
+  return isConnectedAsTarget(a, b) || isConnectedAsSource(a, b) || a.index === b.index;
+}
+
+function isConnectedAsSource(a, b) {
+  return linkedByIndex[`${a.index},${b.index}`];
+}
+
+function isConnectedAsTarget(a, b) {
+  return linkedByIndex[`${b.index},${a.index}`];
+}
+
+function isEqual(a, b) {
+  return a.index === b.index;
+}
+
+function ticked() {
+  link
+    .attr('x1', d => d.source.x)
+    .attr('y1', d => d.source.y)
+    .attr('x2', d => d.target.x)
+    .attr('y2', d => d.target.y);
+
+  node
+    .attr('cx', d => d.x)
+    .attr('cy', d => d.y);
+  }
+
+function nodeRadius(d) { return Math.pow(40.0 * d.size, 1 / 3); }
+
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
