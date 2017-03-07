@@ -2,19 +2,19 @@
 
 const data = {
   nodes: [
-                  { size: 10 },
-                  { size: 5 },
-                  { size: 2 },
-                  { size: 3 },
-                  { size: 30 },
-                  { size: 40 },
+    { size: 10 },
+    { size: 5 },
+    { size: 2 },
+    { size: 3 },
+    { size: 30 },
+    { size: 40 },
   ],
   links: [
-                  { source: 0, target: 1 },
-                  { source: 0, target: 2 },
-                  { source: 1, target: 0 },
-                  { source: 3, target: 0 },
-                  { source: 4, target: 1 },
+    { source: 0, target: 1 },
+    { source: 0, target: 2 },
+    { source: 1, target: 0 },
+    { source: 3, target: 0 },
+    { source: 4, target: 1 },
   ],
 };
 
@@ -101,13 +101,13 @@ const nodes = data.nodes;
 const links = data.links;
 
 const force = d3.layout.force()
-              .nodes(nodes)
-              .links(links)
-              .charge(-3000)
-              .friction(0.6)
-              .gravity(0.6)
-              .size([width, height])
-              .start();
+  .nodes(nodes)
+  .links(links)
+  .charge(-3000)
+  .friction(0.6)
+  .gravity(0.6)
+  .size([width, height])
+  .start();
 
 let linkedByIndex = {};
 links.forEach((d) => {
@@ -115,18 +115,18 @@ links.forEach((d) => {
 });
 
 const svg = d3.select('body').append('svg')
-            .attr('width', width)
-            .attr('height', height);
+  .attr('width', width)
+  .attr('height', height);
 
 let link = svg.selectAll('line')
-              .data(links)
-            .enter().append('line');
+  .data(links)
+  .enter().append('line');
 
 let node = svg.selectAll('.node')
-              .data(nodes)
-            .enter().append('g')
-              .attr('class', 'node')
-              .call(force.drag);
+  .data(nodes)
+  .enter().append('g')
+    .attr('class', 'node')
+    .call(force.drag);
 
 node
   .append('circle')
