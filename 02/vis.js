@@ -68,11 +68,11 @@ function isConnected(a, b) {
 }
 
 function isConnectedAsSource(a, b) {
-    return linkedByIndex[a.index + "," + b.index];
+    return linkedByIndex[`${a.index},${b.index}`];
 }
 
 function isConnectedAsTarget(a, b) {
-    return linkedByIndex[b.index + "," + a.index];
+    return linkedByIndex[`${b.index},${a.index}`];
 }
 
 function isEqual(a, b) {
@@ -87,7 +87,7 @@ function tick() {
     .attr("y2", d => d.target.y);
 
   node
-    .attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+    .attr("transform", d => `translate(${d.x},${d.y})`);
 }
 
 function node_radius(d) { return Math.pow(40.0 * d.size, 1/3); }
@@ -109,7 +109,7 @@ const force = d3.layout.force()
 
 var linkedByIndex = {};
 links.forEach(d => {
-  linkedByIndex[d.source.index + "," + d.target.index] = true;
+  linkedByIndex[`${d.source.index},${d.target.index}`] = true;
 });
 
 const svg = d3.select("body").append("svg")
