@@ -98,20 +98,18 @@ let link = svg.selectAll('line')
   .data(graph.links)
   .enter().append('line');
 
-let node = svg.selectAll('.node')
-  .data(nodes)
-  .enter().append('g')
-    .attr('class', 'node')
+let node = svg.append("g")
+  .attr("class", "nodes")
+  .selectAll("circle")
+  .data(graph.nodes)
+  .enter().append("circle")
+    .attr("r", nodeRadius)
+    .on('mouseover', mouseOverFunction)
+    .on('mouseout', mouseOutFunction)
     .call(d3.drag()
-      .on('start', dragstarted)
-      .on('drag', dragged)
-      .on('end', dragended));
-
-node
-  .append('circle')
-  .attr('r', nodeRadius)
-  .on('mouseover', mouseOverFunction)
-  .on('mouseout', mouseOutFunction);
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended));
 
 svg
   .append('marker')
