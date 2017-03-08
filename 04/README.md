@@ -1,0 +1,1 @@
+an [es2015](https://babeljs.io/learn-es2015/) [d3v4](https://github.com/d3/d3/blob/master/CHANGES.md) iteration on [network fade](http://bl.ocks.org/jalapic/14fcf6f266e877cb1c23) from [@jalapic](http://twitter.com/jalapic) 
