@@ -25,7 +25,6 @@ const mouseOverFunction = function (d) {
     .transition(500)
       .style('opacity', o => {
         const isConnectedValue = isConnected(o, d);
-        console.log('isConnectedValue', isConnectedValue);
         if (isConnectedValue) {
           return 1.0;
         }
@@ -92,11 +91,6 @@ const simulation = d3.forceSimulation()
   // .size([width, height])
   // .start();
 
-let linkedByIndex = {};
-links.forEach((d) => {
-  linkedByIndex[`${d.source.index},${d.target.index}`] = true;
-});
-
 const svg = d3.select('body').append('svg')
   .attr('width', width)
   .attr('height', height);
@@ -140,6 +134,11 @@ simulation
 
 simulation.force('link')
   .links(graph.links);
+
+let linkedByIndex = {};
+links.forEach((d) => {
+  linkedByIndex[`${d.source.index},${d.target.index}`] = true;
+});
 
 function isConnected(a, b) {
   return isConnectedAsTarget(a, b) || isConnectedAsSource(a, b) || a.index === b.index;
