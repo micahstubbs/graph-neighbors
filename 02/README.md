@@ -1,4 +1,4 @@
-an [es2015](https://babeljs.io/learn-es2015/) [d3v4](https://github.com/d3/d3/blob/master/CHANGES.md) iteration the block [Force layout graph with colour-coded node neighbours.](http://bl.ocks.org/samuelleach/5497403) from [@samuelleach](https://twitter.com/samuelleach)
+an [es2015](https://babeljs.io/learn-es2015/) [d3v4](https://github.com/d3/d3/blob/master/CHANGES.md) iteration on the block [Force layout graph with colour-coded node neighbours](http://bl.ocks.org/samuelleach/5497403) from [@samuelleach](https://twitter.com/samuelleach)
 
 ---
 
