@@ -1,5 +1,5 @@
 function bar() {
-  console.log("click");
+  console.log('click');
   force.stop();
   force.start();
 }
@@ -7,22 +7,22 @@ function bar() {
   
   
   var links = [
-  {source: "A", target: "D", type: "high"},
-  {source: "A", target: "K", type: "high"},
-  {source: "B", target: "G", type: "high"},
-  {source: "H", target: "B", type: "high"},
-  {source: "C", target: "A", type: "low"},
-  {source: "C", target: "L", type: "low"},
-  {source: "E", target: "A", type: "low"},
-  {source: "F", target: "B", type: "low"},
-  {source: "F", target: "G", type: "low"},
-  {source: "K", target: "J", type: "low"},
-  {source: "F", target: "I", type: "low"},
-  {source: "G", target: "H", type: "low"},
-  {source: "E", target: "K", type: "high"},
-  {source: "E", target: "G", type: "low"},
-  {source: "E", target: "F", type: "high"},
-  {source: "E", target: "M", type: "high"},
+  {source: 'A', target: 'D', type: 'high'},
+  {source: 'A', target: 'K', type: 'high'},
+  {source: 'B', target: 'G', type: 'high'},
+  {source: 'H', target: 'B', type: 'high'},
+  {source: 'C', target: 'A', type: 'low'},
+  {source: 'C', target: 'L', type: 'low'},
+  {source: 'E', target: 'A', type: 'low'},
+  {source: 'F', target: 'B', type: 'low'},
+  {source: 'F', target: 'G', type: 'low'},
+  {source: 'K', target: 'J', type: 'low'},
+  {source: 'F', target: 'I', type: 'low'},
+  {source: 'G', target: 'H', type: 'low'},
+  {source: 'E', target: 'K', type: 'high'},
+  {source: 'E', target: 'G', type: 'low'},
+  {source: 'E', target: 'F', type: 'high'},
+  {source: 'E', target: 'M', type: 'high'},
 ];
 
 var nodes = {};
@@ -42,30 +42,30 @@ var force = d3.layout.force()
     .size([width, height])
     .linkDistance(105)
     .charge(-775)
-    .on("tick", tick)
+    .on('tick', tick)
     .start();
 
   
   
-force.on("start", function () {
-    console.log("start");
+force.on('start', function () {
+    console.log('start');
 });
-force.on("end", function () {
-    console.log("end");
+force.on('end', function () {
+    console.log('end');
 });
 
 R=18
  
 
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+var svg = d3.select('body').append('svg')
+    .attr('width', width)
+    .attr('height', height);
 
 // add defs-marker
 // add defs-markers
-svg.append('svg:defs').selectAll("marker")
-    .data([{id:"end-arrow", opacity:1}, {id:"end-arrow-fade", opacity:0.1}])
+svg.append('svg:defs').selectAll('marker')
+    .data([{id:'end-arrow', opacity:1}, {id:'end-arrow-fade', opacity:0.1}])
   .enter().append('marker')
     .attr('id', function(d) { return d.id; })
     .attr('viewBox', '0 0 10 10')
@@ -76,32 +76,32 @@ svg.append('svg:defs').selectAll("marker")
     .attr('orient', 'auto')
   .append('svg:path')
     .attr('d', 'M0,0 L0,10 L10,5 z')
-    .style("opacity", function(d) { return d.opacity; });
-var link = svg.selectAll(".link")
+    .style('opacity', function(d) { return d.opacity; });
+var link = svg.selectAll('.link')
     .data(force.links())
     .enter()
-    .append("line")
-    .attr("class", "link")
+    .append('line')
+    .attr('class', 'link')
     .attr('marker-end', 'url(#end-arrow)')
-    .on("mouseout", fade(1))
+    .on('mouseout', fade(1))
 ;  
  
-var node = svg.selectAll(".node")
+var node = svg.selectAll('.node')
     .data(force.nodes())
-    .enter().append("g")
-    .attr("class", "node")
+    .enter().append('g')
+    .attr('class', 'node')
     .call(force.drag);
 
-node.append("circle")
-    .attr("r", R)
-    .on("mouseover", fade(.1))
-    .on("mouseout", fade(1))
+node.append('circle')
+    .attr('r', R)
+    .on('mouseover', fade(.1))
+    .on('mouseout', fade(1))
    
 ;
 
-node.append("text")
-    .attr("x", 0)
-    .attr("dy", ".35em")
+node.append('text')
+    .attr('x', 0)
+    .attr('dy', '.35em')
     .text(function(d) { return d.name; });
 
 
@@ -109,42 +109,42 @@ node.append("text")
   
 function tick() {
   link
-      .attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
-      .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; })      
+      .attr('x1', function(d) { return d.source.x; })
+      .attr('y1', function(d) { return d.source.y; })
+      .attr('x2', function(d) { return d.target.x; })
+      .attr('y2', function(d) { return d.target.y; })      
     ;
 
   node
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+      .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
 }
 
   
   
    var linkedByIndex = {};
     links.forEach(function(d) {
-        linkedByIndex[d.source.index + "," + d.target.index] = 1;
+        linkedByIndex[d.source.index + ',' + d.target.index] = 1;
     });
 
     function isConnected(a, b) {
-        return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
+        return linkedByIndex[a.index + ',' + b.index] || linkedByIndex[b.index + ',' + a.index] || a.index == b.index;
     }
   
  function fade(opacity) {
         return function(d) {
-            node.style("stroke-opacity", function(o) {
+            node.style('stroke-opacity', function(o) {
                 thisOpacity = isConnected(d, o) ? 1 : opacity;
                 this.setAttribute('fill-opacity', thisOpacity);
                 return thisOpacity;
             });
    
           
-          link.style("stroke-opacity", function(o) {
+          link.style('stroke-opacity', function(o) {
                 return o.source === d || o.target === d ? 1 : opacity;
             });
           
             
-            link.attr("marker-end", function(o) {
+            link.attr('marker-end', function(o) {
                 return opacity === 1 || o.source === d || o.target === d ? 'url(#end-arrow)' : 'url(#end-arrow-fade)';
             });          
                
