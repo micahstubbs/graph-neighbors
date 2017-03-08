@@ -7,12 +7,13 @@ d3.json('graph.json', (error, graph) => {
   const simulation = d3.forceSimulation()
     .nodes(graph.nodes)
     .force('link', d3.forceLink().id(d => d.id))
-    .force('charge', d3.forceManyBody())
+    .force('charge', d3.forceManyBody().strength([-250]))
     .force('center', d3.forceCenter(width / 2, height / 2))
     .on('tick', ticked);
 
   simulation.force('link')
-    .links(graph.links);
+    .links(graph.links)
+    .distance([85]);
 
   const R = 18;
 
