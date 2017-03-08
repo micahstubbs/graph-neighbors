@@ -1,10 +1,8 @@
 /* global d3 */
 
-function bar() {
-  console.log('click');
-  force.stop();
-  force.start();
-}
+//
+//
+//
 
 const links = [
   { source: 'A', target: 'D', type: 'high' },
@@ -26,18 +24,54 @@ const links = [
 ];
 
 const nodes = [];
+const nodesHash = {};
 
 // Compute the distinct nodes from the links.
 links.forEach(link => {
-  link.source = nodes[link.source] || (nodes.push({ name: link.source }));
-  link.target = nodes[link.target] || (nodes.push({ name: link.target }));
+  if (typeof nodesHash[link.source] === 'undefined') {
+    nodesHash[link.source] = true;
+    nodes.push({ name: link.source })
+  }
+  if (typeof nodesHash[link.target] === 'undefined') {
+    nodesHash[link.target] = true;
+    nodes.push({ name: link.target })
+  }
+  // link.source = nodesHash[link.source] || (nodes.push({ name: link.source }));
+  // link.target = nodesHash[link.target] || (nodes.push({ name: link.target }));
 });
+console.log('links', links);
+
+// make an object to for looking up node ids by name
+const nodeIdsByNameHash = {};
 
 // give nodes an id property
 nodes.forEach((node, i) => {
   node.id = i;
+  nodeIdsByNameHash[node.name] = i;
 })
 console.log('computed nodes', nodes);
+console.log('nodeIdsByNameHash', nodeIdsByNameHash);
+
+// convert links to use node ids
+links.forEach(link => {
+  console.log('link from link conversion loop', link);
+  if (typeof nodeIdsByNameHash[link.source] !== 'undefined') {  
+    link.source = nodeIdsByNameHash[link.source];
+  }
+  if (typeof nodeIdsByNameHash[link.target] !== 'undefined') {  
+    link.target = nodeIdsByNameHash[link.target];
+  } 
+})
+console.log('links', links);
+
+window.graph = {
+  nodes: nodes,
+  links: links
+};
+
+//
+//
+//
 
 const width = 960;
 const height = 700;
@@ -48,6 +82,9 @@ const simulation = d3.forceSimulation()
   .force('charge', d3.forceManyBody())
   .force('center', d3.forceCenter(width / 2, height / 2))
   .on('tick', ticked);
+
+simulation.force('link')
+  .links(links);
 
 // const force = d3.layout.force()
 //   .nodes(d3.values(nodes))
@@ -87,15 +124,16 @@ svg.append('svg:defs').selectAll('marker')
       .attr('d', 'M0,0 L0,10 L10,5 z')
       .style('opacity', d => d.opacity);
 
-const link = svg.selectAll('.link')
+let link = svg.selectAll('line')
   .data(links)
-  .enter()
-  .append('line')
+  .enter().append('line');
+
+link  
   .attr('class', 'link')
   .attr('marker-end', 'url(#end-arrow)')
   .on('mouseout', fade(1));
 
-const node = svg.selectAll('.node')
+let node = svg.selectAll('.node')
   .data(nodes)
   .enter().append('g')
   .attr('class', 'node')
@@ -117,7 +155,10 @@ node.append('text')
 
 function ticked() {
   link
-    .attr('x1', d => d.source.x)
+    .attr('x1', d => {
+      console.log('d from ticked', d);
+      return d.source.x
+    })
     .attr('y1', d => d.source.y)
     .attr('x2', d => d.target.x)
     .attr('y2', d => d.target.y);
@@ -164,3 +205,4 @@ function fade(opacity) {
     link.attr('marker-end', o => (opacity === 1 || o.source === d || o.target === d ? 'url(#end-arrow)' : 'url(#end-arrow-fade)'));
   };
 }
+

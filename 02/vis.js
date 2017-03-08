@@ -139,6 +139,7 @@ let linkedByIndex = {};
 links.forEach((d) => {
   linkedByIndex[`${d.source.index},${d.target.index}`] = true;
 });
+console.log('linkedByIndex', linkedByIndex);
 
 function isConnected(a, b) {
   return isConnectedAsTarget(a, b) || isConnectedAsSource(a, b) || a.index === b.index;
