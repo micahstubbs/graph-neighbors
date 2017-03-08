@@ -23,7 +23,14 @@ const mouseOverFunction = function (d) {
 
   node
     .transition(500)
-      .style('opacity', o => (isConnected(o, d) ? 1.0 : 0.2))
+      .style('opacity', o => {
+        const isConnectedValue = isConnected(o, d);
+        console.log('isConnectedValue', isConnectedValue);
+        if (isConnectedValue) {
+          return 1.0;
+        }
+        return 0.2
+      })
       .style('fill', (o) => {
         let fillColor;
         if (isConnectedAsTarget(o, d) && isConnectedAsSource(o, d)) {
@@ -98,11 +105,13 @@ let link = svg.selectAll('line')
   .data(graph.links)
   .enter().append('line');
 
-let node = svg.append("g")
-  .attr("class", "nodes")
-  .selectAll("circle")
+let node = svg.selectAll('.node')
   .data(graph.nodes)
-  .enter().append("circle")
+  .enter().append("g")
+    .attr('class', 'node');
+
+node
+  .append('circle')
     .attr("r", nodeRadius)
     .on('mouseover', mouseOverFunction)
     .on('mouseout', mouseOutFunction)
@@ -156,8 +165,7 @@ function ticked() {
     .attr('y2', d => d.target.y);
 
   node
-    .attr('cx', d => d.x)
-    .attr('cy', d => d.y);
+    .attr('transform', d => `translate(${d.x},${d.y})`);
   }
 
 function nodeRadius(d) { return Math.pow(40.0 * d.size, 1 / 3); }
