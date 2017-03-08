@@ -18,6 +18,9 @@ const graph = {
   ],
 };
 
+const width = 960;
+const height = 500;
+
 const mouseOverFunction = function (d) {
   const circle = d3.select(this);
 
@@ -70,9 +73,6 @@ const mouseOutFunction = function () {
     .transition(500)
       .attr('r', nodeRadius);
 };
-
-const width = 1000;
-const height = 500;
 
 const nodes = graph.nodes;
 const links = graph.links;
