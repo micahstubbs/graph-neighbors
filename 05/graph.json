@@ -1,0 +1,138 @@
+{
+    "nodes": [
+        {
+            "name": "A",
+            "id": 0
+        },
+        {
+            "name": "D",
+            "id": 1
+        },
+        {
+            "name": "K",
+            "id": 2
+        },
+        {
+            "name": "B",
+            "id": 3
+        },
+        {
+            "name": "G",
+            "id": 4
+        },
+        {
+            "name": "H",
+            "id": 5
+        },
+        {
+            "name": "C",
+            "id": 6
+        },
+        {
+            "name": "L",
+            "id": 7
+        },
+        {
+            "name": "E",
+            "id": 8
+        },
+        {
+            "name": "F",
+            "id": 9
+        },
+        {
+            "name": "J",
+            "id": 10
+        },
+        {
+            "name": "I",
+            "id": 11
+        },
+        {
+            "name": "M",
+            "id": 12
+        }
+    ],
+    "links": [
+        {
+            "source": 0,
+            "target": 1,
+            "type": "high"
+        },
+        {
+            "source": 0,
+            "target": 2,
+            "type": "high"
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "type": "high"
+        },
+        {
+            "source": 5,
+            "target": 3,
+            "type": "high"
+        },
+        {
+            "source": 6,
+            "target": 0,
+            "type": "low"
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "type": "low"
+        },
+        {
+            "source": 8,
+            "target": 0,
+            "type": "low"
+        },
+        {
+            "source": 9,
+            "target": 3,
+            "type": "low"
+        },
+        {
+            "source": 9,
+            "target": 4,
+            "type": "low"
+        },
+        {
+            "source": 2,
+            "target": 10,
+            "type": "low"
+        },
+        {
+            "source": 9,
+            "target": 11,
+            "type": "low"
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "type": "low"
+        },
+        {
+            "source": 8,
+            "target": 2,
+            "type": "high"
+        },
+        {
+            "source": 8,
+            "target": 4,
+            "type": "low"
+        },
+        {
+            "source": 8,
+            "target": 9,
+            "type": "high"
+        },
+        {
+            "source": 8,
+            "target": 12,
+            "type": "high"
+        }
+    ]
+}
